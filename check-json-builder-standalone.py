@@ -11,10 +11,10 @@ import os
 
 # Check if the OS is Windows or Linux
 if (os.name == 'nt'):
-  CHECK_PATH="C:\\etc\\sensu\\conf.d\\checks"
+  CHECK_PATH="C:\\etc\\sensu\\conf.d\\checks\\"
 else:
   CHECK_PATH="/etc/sensu/conf.d/checks"
-  
+
 CHECK_EXTENSION=".json"
 
 # Check if directory exists and creates it if not
@@ -58,19 +58,8 @@ while True:
       # Interval was successfully parsed!
       break
 
-  try:
-    # Check if check is stand alone
-    bIsStandalone=raw_input("Is standalone? (true/false) [t/f]: ")
-
-    # Check if user entered t or f
-    if (bIsStandalone == "t"):
-      bIsStandalone=True
-    elif(bIsStandalone == "f"):
-      bIsStandalone=False
-
-    jsCheckJson['checks'][strCheckName]['standalone']=bool(bIsStandalone)
-  except ValueError:
-    print("Please enter boolean")
+  # Set the check standalone attribute to true
+  jsCheckJson['checks'][strCheckName]['standalone']=bool(True)
 
   try:  
     # Creating a file and dumping the check's json
