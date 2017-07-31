@@ -13,7 +13,7 @@ import os
 if (os.name == 'nt'):
   CHECK_PATH="C:\\etc\\sensu\\conf.d\\checks\\"
 else:
-  CHECK_PATH="/etc/sensu/conf.d/checks"
+  CHECK_PATH="/etc/sensu/conf.d/checks/"
 
 CHECK_EXTENSION=".json"
 
