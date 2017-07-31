@@ -1,8 +1,12 @@
 # Author - Sagi Yosef
 # Creation Date 30.07.2017
+#
 # This script builds sensu check json file by user input.
+#
 # --- HOW TO RUN ---
 # Copy the script to the monitored server and run the script
+#
+# python check-json-builder-standalone.py
 #
 # *** Notice you have to install python ***
 
