@@ -15,24 +15,12 @@ import json
 import os
 import argparse
 
-CHECK_PATH="/etc/ansible/roles/sagyos.advanced.monitoring/checks/"
-SCRIPTS_PATH="/etc/ansible/roles/sagyos.advanced.monitoring/scripts/"
-CHECK_EXTENSION=".json"
-
-# Check if checks directory exists and creates it if not
-if not os.path.exists(CHECK_PATH):
-  os.makedirs(CHECK_PATH)
-
-# Check if checks directory exists and creates it if not
-if not os.path.exists(SCRIPTS_PATH):
-  os.makedirs(SCRIPTS_PATH)
-
 # Set arguments for the tool
 def setArgParse():
     # Setting the parser arguments
   parser = argparse.ArgumentParser(prog="ansible-check-builder",
-                                   description="This script builds a check json file for the Sensu monitoring system." +
-                                               "\nIf using arguments only one check wil be created at a time" +
+                                   description="This script builds a check json file for the Sensu monitoring system.\n" +
+                                               "\nIf using arguments only one check wil be created at a time\n" +
                                                "\n***NOTICE*** If using arguments option all arguments except version are required")
   parser.add_argument("-v", "--version", action='version', version='%(prog)s   2.0', help="Prints the tool version")
   parser.add_argument("-g", "--group", help="Ansible group")
@@ -152,24 +140,42 @@ def argsNotProvided(jsCheckJson):
   jsCheckJson['checks'].clear()
 
 
-prArgs=setArgParse()
+# ------------------------ Main -----------------------------
+if __name__ == '__main__':
+  # Initializing the default path variables
+  CHECK_PATH="/etc/ansible/roles/sagyos.advanced.monitoring/checks/"
+  SCRIPTS_PATH="/etc/ansible/roles/sagyos.advanced.monitoring/scripts/"
+  CHECK_EXTENSION=".json"
 
-# Creating check definition
-jsCheckJson={}
-jsCheckJson['checks']={}
+  # Check if checks directory exists and creates it if not
+  if not os.path.exists(CHECK_PATH):
+    os.makedirs(CHECK_PATH)
 
-# Check if the user entered arguments
-if not len(sys.argv) > 1:
-  # While user don't want to quit new checks will be created
-  while True:
-    argsNotProvided(jsCheckJson)
+  # Check if checks directory exists and creates it if not
+  if not os.path.exists(SCRIPTS_PATH):
+    os.makedirs(SCRIPTS_PATH)
+    
+  # Setting the parser arguments
+  prArgs=setArgParse()
 
-    strUserChoice=raw_input('Continue to another check? y/n: ')
-  
-    # Check if user want to exit
-    if (strUserChoice == "n"):
-      break
-elif not len(sys.argv) == 9:
-  print "Please provide all the arguments except -v or --version"
-else:
-  argsProvided(prArgs, jsCheckJson)
+  # Creating check definition
+  jsCheckJson={}
+  jsCheckJson['checks']={}
+
+  # Check if the user entered arguments
+  if not len(sys.argv) > 1:
+    # While user don't want to quit new checks will be created
+    while True:
+      # Building the check json and saves it
+      argsNotProvided(jsCheckJson)
+
+      strUserChoice=raw_input('Continue to another check? y/n: ')
+    
+      # Check if user want to exit
+      if (strUserChoice == "n"):
+        break
+  elif not len(sys.argv) == 9:
+    print "Please provide all the arguments except -v or --version"
+  else:
+    # Building the check json and saves it
+    argsProvided(prArgs, jsCheckJson)
