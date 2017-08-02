@@ -69,7 +69,7 @@ def argsProvided(args, jsCheckJson):
   jsCheckJson['checks'][args.name]['subscribers']=[]
 
   # Setting the subscribers
-  jsCheckJson['checks'][strCheckName]['subscribers'].append(args.group)
+  jsCheckJson['checks'][args.name]['subscribers'].append(args.group)
 
   # Check if the user wants to add more subscribers
   bMoreSubscribers=raw_input("Do you want to add subscribers? [y/n] ")
@@ -80,17 +80,17 @@ def argsProvided(args, jsCheckJson):
 
     # While user didn't enter exit, subscribers will be added
     while (strSubscribers != "exit"):
-      jsCheckJson['checks'][strCheckName]['subscribers'].append(strSubscribers)
+      jsCheckJson['checks'][args.name]['subscribers'].append(strSubscribers)
       strSubscribers=raw_input()
   
   # Set the interval
-  jsCheckJson['checks'][args.name]['interval']=args.interval
+  jsCheckJson['checks'][args.name]['interval']=int(args.interval)
   
   # Set the check standalone attribute to true
-  jsCheckJson['checks'][strCheckName]['standalone']=bool(True)
+  jsCheckJson['checks'][args.name]['standalone']=bool(True)
   
   # Write the json to file
-  writeToFile(jsCheckJson, strAnsibleGroup, strCheckName)
+  writeToFile(jsCheckJson, args.group, args.name)
   
 # This function creates a check json file based on execution time user input
 def argsNotProvided(jsCheckJson): 
